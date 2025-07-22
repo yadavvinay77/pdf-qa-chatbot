@@ -16,7 +16,7 @@ This app lets you upload a PDF file and ask questions about it using natural lan
 cd pdf_qa_chatbot
 pip install -r requirements.txt
 streamlit run app.py
-
+```
 ---
 
 ## 💡 Future Ideas
