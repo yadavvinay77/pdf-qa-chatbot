@@ -1,0 +1,6 @@
+streamlit
+PyMuPDF
+sentence-transformers
+transformers
+faiss-cpu
+torch
