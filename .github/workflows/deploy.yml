@@ -1,0 +1,65 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Lint code with flake8
+        run: |
+          pip install flake8
+          flake8 .
+
+      # Optionally, add tests here if you have any
+      # - name: Run tests
+      #   run: |
+      #     pytest
+
+  deploy:
+    needs: build-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'  # only deploy on main branch
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Example deployment step (customize this)
+      - name: Deploy to Streamlit Cloud
+        env:
+          STREAMLIT_TOKEN: ${{ secrets.STREAMLIT_TOKEN }}
+        run: |
+          # Install Streamlit CLI (if needed)
+          pip install streamlit
+          # Deploy command, e.g. pushing to streamlit cloud
+          # This is just a placeholder; Streamlit Cloud typically auto-deploys on GitHub push
+          echo "Deploy step - customize based on your hosting"
